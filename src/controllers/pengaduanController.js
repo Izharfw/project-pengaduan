@@ -9,3 +9,11 @@ export async function tambahPengaduan(req, res, next) {
     next(error);
   }
 }
+export async function lihatSemuaPengaduan(req, res, next) {
+  try {
+    const data = await Pengaduan.find().sort({ createdAt: -1 });
+    res.status(200).json({ success: true, count: data.length, data });
+  } catch (error) {
+    next(error);
+  }
+}
