@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { tambahPengaduan, lihatSemuaPengaduan, cariPengaduanById, ubahPengaduan, ubahStatusPengaduan, hapusPengaduan } from "../controllers/pengaduanController.js";
+import { tambahPengaduan, lihatSemuaPengaduan, cariPengaduanById, ubahPengaduan, ubahStatusPengaduan, hapusPengaduan, hitungStatistik } from "../controllers/pengaduanController.js";
 
 const router = Router();
 // Rute untuk menambah pengaduan (POST)
@@ -7,6 +7,9 @@ router.post("/", tambahPengaduan);
 
 // Rute untuk melihat semua pengaduan (GET)
 router.get("/", lihatSemuaPengaduan);
+
+// Rute untuk menghitung statistik pengaduan (GET)
+router.get("/statistik", hitungStatistik);
 
 // Rute untuk mencari pengaduan berdasarkan ID (GET)
 router.get("/:id", cariPengaduanById);

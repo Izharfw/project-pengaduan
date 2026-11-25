@@ -56,6 +56,17 @@ export async function lihatSemuaPengaduan(req, res, next) {
     next(error);
   }
 }
+export async function hitungStatistik(req, res, next) {
+  try {
+    const hitung = await Promise.all(DAFTAR_STATUS.map((status) => Pengaduan.countDocuments({ status })));
+    const data = {};
+    DAFTAR_STATUS.forEach((status, i) => { data[status] = hitung[i]; });
+    data.Total = hitung.reduce((a, b) => a + b, 0);
+    res.status(200).json({ success: true, data });
+  } catch (error) {
+    next(error);
+  }
+}
 export async function cariPengaduanById(req, res, next) {
   try {
     const { id } = req.params;
