@@ -53,3 +53,22 @@ export async function ubahPengaduan(req, res, next) {
     next(error);
   }
 }
+export async function ubahStatusPengaduan(req, res, next) {
+  try {
+    const { id } = req.params;
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({ success: false, message: "Format ID tidak valid" });
+    }
+    const data = await Pengaduan.findByIdAndUpdate(
+      id,
+      { status: req.body.status },
+      { new: true, runValidators: true }
+    );
+    if (!data) {
+      return res.status(404).json({ success: false, message: `Pengaduan dengan ID ${id} tidak ditemukan` });
+    }
+    res.status(200).json({ success: true, message: "Status pengaduan berhasil diubah", data });
+  } catch (error) {
+    next(error);
+  }
+}

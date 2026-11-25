@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { tambahPengaduan, lihatSemuaPengaduan, cariPengaduanById, ubahPengaduan } from "../controllers/pengaduanController.js";
+import { tambahPengaduan, lihatSemuaPengaduan, cariPengaduanById, ubahPengaduan, ubahStatusPengaduan } from "../controllers/pengaduanController.js";
 
 const router = Router();
 // Rute untuk menambah pengaduan (POST)
@@ -13,5 +13,8 @@ router.get("/:id", cariPengaduanById);
 
 // Rute untuk mengubah pengaduan berdasarkan ID (PUT)
 router.put("/:id", ubahPengaduan);
+
+// Rute untuk mengubah status pengaduan berdasarkan ID (PATCH)
+router.patch("/:id/status", ubahStatusPengaduan);
 
 export default router;
