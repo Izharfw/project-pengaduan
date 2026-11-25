@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { tambahPengaduan, lihatSemuaPengaduan, cariPengaduanById } from "../controllers/pengaduanController.js";
+import { tambahPengaduan, lihatSemuaPengaduan, cariPengaduanById, ubahPengaduan } from "../controllers/pengaduanController.js";
 
 const router = Router();
 // Rute untuk menambah pengaduan (POST)
@@ -10,5 +10,8 @@ router.get("/", lihatSemuaPengaduan);
 
 // Rute untuk mencari pengaduan berdasarkan ID (GET)
 router.get("/:id", cariPengaduanById);
+
+// Rute untuk mengubah pengaduan berdasarkan ID (PUT)
+router.put("/:id", ubahPengaduan);
 
 export default router;

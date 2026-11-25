@@ -33,3 +33,23 @@ export async function cariPengaduanById(req, res, next) {
     next(error);
   }
 }
+export async function ubahPengaduan(req, res, next) {
+  try {
+    const { id } = req.params;
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({ success: false, message: "Format ID tidak valid" });
+    }
+    const data = await Pengaduan.findById(id);
+    if (!data) {
+      return res.status(404).json({ success: false, message: `Pengaduan dengan ID ${id} tidak ditemukan` });
+    }
+    const { nama, kategori, isi } = req.body;
+    data.nama = nama;
+    data.kategori = kategori;
+    data.isi = isi;
+    await data.save();
+    res.status(200).json({ success: true, message: "Pengaduan berhasil diubah", data });
+  } catch (error) {
+    next(error);
+  }
+}
