@@ -72,3 +72,18 @@ export async function ubahStatusPengaduan(req, res, next) {
     next(error);
   }
 }
+export async function hapusPengaduan(req, res, next) {
+  try {
+    const { id } = req.params;
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({ success: false, message: "Format ID tidak valid" });
+    }
+    const data = await Pengaduan.findByIdAndDelete(id);
+    if (!data) {
+      return res.status(404).json({ success: false, message: `Pengaduan dengan ID ${id} tidak ditemukan` });
+    }
+    res.status(200).json({ success: true, message: "Pengaduan berhasil dihapus", data });
+  } catch (error) {
+    next(error);
+  }
+}
