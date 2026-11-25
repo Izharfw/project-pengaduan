@@ -1,5 +1,16 @@
 import mongoose from "mongoose";
-import Pengaduan from "../models/Pengaduan.js";
+import Pengaduan, { DAFTAR_KATEGORI, DAFTAR_STATUS } from "../models/Pengaduan.js";
+
+// Cocokkan input dengan daftar resmi tanpa peduli huruf besar/kecil.
+// "fasilitas" -> "Fasilitas". Kalau tidak ada yang cocok, hasilnya undefined.
+function cocokkanPilihan(input, daftar) {
+  return daftar.find((item) => item.toLowerCase() === String(input).toLowerCase());
+}
+
+// Netralkan karakter khusus regex supaya pencarian aman
+function escapeRegex(teks) {
+  return teks.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 
 export async function tambahPengaduan(req, res, next) {
   try {
@@ -12,7 +23,34 @@ export async function tambahPengaduan(req, res, next) {
 }
 export async function lihatSemuaPengaduan(req, res, next) {
   try {
-    const data = await Pengaduan.find().sort({ createdAt: -1 });
+    const { kategori, status, search } = req.query;
+    const filter = {};
+
+    if (kategori) {
+      const valid = cocokkanPilihan(kategori, DAFTAR_KATEGORI);
+      if (!valid) {
+        return res.status(400).json({
+          success: false,
+          message: `Kategori tidak valid. Pilihan: ${DAFTAR_KATEGORI.join(", ")}`,
+        });
+      }
+      filter.kategori = valid;
+    }
+    if (status) {
+      const valid = cocokkanPilihan(status, DAFTAR_STATUS);
+      if (!valid) {
+        return res.status(400).json({
+          success: false,
+          message: `Status tidak valid. Pilihan: ${DAFTAR_STATUS.join(", ")}`,
+        });
+      }
+      filter.status = valid;
+    }
+    if (search) {
+      const regex = new RegExp(escapeRegex(String(search)), "i");
+      filter.$or = [{ isi: regex }, { nama: regex }];
+    }
+    const data = await Pengaduan.find(filter).sort({ createdAt: -1 });
     res.status(200).json({ success: true, count: data.length, data });
   } catch (error) {
     next(error);
