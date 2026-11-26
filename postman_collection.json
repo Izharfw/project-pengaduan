@@ -1,0 +1,132 @@
+{
+  "info": {
+    "name": "API Pengaduan Mahasiswa",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api/pengaduan"
+    },
+    {
+      "key": "id",
+      "value": "MASUKKAN_ID_DISINI"
+    }
+  ],
+  "item": [
+    {
+      "name": "Pengujian berhasil",
+      "item": [
+        {
+          "name": "1. Tambah Pengaduan (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nama\": \"Izhar\",\n  \"kategori\": \"Fasilitas\",\n  \"isi\": \"Proyektor rusak di ruang kelas\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        },
+        {
+          "name": "2. Lihat Semua Pengaduan / Filter / Search (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        },
+        {
+          "name": "3. Hitung Statistik Pengaduan (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/statistik", "host": ["{{baseUrl}}", "statistik"] }
+          }
+        },
+        {
+          "name": "4. Cari Pengaduan Berdasarkan ID (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/{{id}}", "host": ["{{baseUrl}}", "{{id}}"] }
+          }
+        },
+        {
+          "name": "5. Ubah Pengaduan Full / PUT (PUT)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nama\": \"Izhar Santoso\",\n  \"kategori\": \"Fasilitas\",\n  \"isi\": \"Proyektor rusak di ruang kelas dan perlu diganti segera\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/{{id}}", "host": ["{{baseUrl}}", "{{id}}"] }
+          }
+        },
+        {
+          "name": "6. Ubah Status Pengaduan / PATCH (PATCH)",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Selesai\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/{{id}}/status", "host": ["{{baseUrl}}", "{{id}}", "status"] }
+          }
+        },
+        {
+          "name": "7. Hapus Pengaduan (DELETE)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/{{id}}", "host": ["{{baseUrl}}", "{{id}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pengujian Error (Edge Cases)",
+      "item": [
+        {
+          "name": "8. Uji Error Validasi POST (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] }
+          }
+        },
+        {
+          "name": "9. Uji Error Format ID Tidak Valid (400)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/abc123salahformat", "host": ["{{baseUrl}}", "abc123salahformat"] }
+          }
+        },
+        {
+          "name": "10. Uji Error Data Tidak Ditemukan (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/000000000000000000000000", "host": ["{{baseUrl}}", "000000000000000000000000"] }
+          }
+        },
+        {
+          "name": "11. Uji Error Kategori Tidak Valid (400)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}?kategori=Parkir", "host": ["{{baseUrl}}"] }
+          }
+        }
+      ]
+    }
+  ]
+}
