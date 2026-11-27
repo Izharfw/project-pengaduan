@@ -18,6 +18,8 @@ bisa dilacak: **Menunggu**, **Diproses**, dan **Selesai**.
 API dibangun dengan **ExpressJS** dan **MongoDB** (lewat Mongoose) dengan arsitektur
 modular: Model, Controller, dan Routes. Data disimpan di MongoDB, bukan di array dalam kode.
 
+Bisa Ditonton di youtube link : https://youtu.be/iNV3olkooQQ
+
 ## Teknologi
 
 - Node.js (ES Modules)
